@@ -29,7 +29,7 @@ SWEP.Primary.Damage = 22
 SWEP.Primary.Automatic = false
 SWEP.Primary.ClipSize = 30
 SWEP.Primary.ClipMax = 60
-SWEP.Primary.DefaultClip = 60
+SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Sound = Sound("Dragon_Elite.Single")
 
 SWEP.HeadshotMultiplier = 2.97
@@ -79,6 +79,8 @@ function SWEP:Initialize()
 	elseif (SERVER) then
 		self.fingerprints = {}
 		self:SetIronsights(false)
+		-- aditional magazine, seems to be bugged, if using DefaultClip
+		timer.Simple(0.1, function() if (IsValid(self.Owner)) then self.Owner:GiveAmmo(30, "pistol", false) end end)
 	end
 
 	self:SetDeploySpeed(self.DeploySpeed)
