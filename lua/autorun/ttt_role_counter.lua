@@ -108,7 +108,12 @@ hook.Add("PostGamemodeLoaded", "TTTInitRoleCounter", function() if (GAMEMODE_NAM
 
 					net.Start("TTT_RoleCount_Leave")
 						net.WriteUInt(ply:GetRole(), 3)
-						net.WriteBool(ply:Alive())
+						-- Spectator Deathmatch support
+						if (file.Exists("sh_spectator_deathmatch.lua", "LUA")) then
+							net.WriteBool(!ply:IsGhost() and ply:Alive())
+						else
+							net.WriteBool(ply:Alive())
+						end
 					net.Broadcast()
 				end
 			end

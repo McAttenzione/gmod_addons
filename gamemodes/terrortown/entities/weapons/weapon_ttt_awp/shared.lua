@@ -25,13 +25,14 @@ SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 2
 SWEP.Primary.Recoil = 10
 SWEP.Primary.Cone = 0.001
-SWEP.Primary.Damage = 101
+SWEP.Primary.Damage = 125
 SWEP.Primary.Automatic = false
 SWEP.Primary.ClipSize = 2
 SWEP.Primary.DefaultClip = 2
 SWEP.Primary.Sound = Sound("Weapon_AWP.Single")
 SWEP.Secondary.Delay = 0.3
 SWEP.Secondary.Sound = Sound("Default.Zoom")
+SWEP.HeadshotMultiplier = 6
 
 --- Model settings ---
 SWEP.HoldType = "ar2"

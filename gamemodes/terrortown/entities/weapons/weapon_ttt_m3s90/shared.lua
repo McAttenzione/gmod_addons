@@ -16,10 +16,10 @@ SWEP.Base = "weapon_tttbase"
 
 --- Default GMod values ---
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Delay = 1
+SWEP.Primary.Delay = 1.2
 SWEP.Primary.Recoil	= 7
-SWEP.Primary.Cone = 0.075
-SWEP.Primary.Damage = 12
+SWEP.Primary.Cone = 0.09
+SWEP.Primary.Damage = 13
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 8
 SWEP.Primary.ClipMax = 24
