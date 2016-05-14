@@ -1,0 +1,3 @@
+gamemodes\terrortown\entities\weapons\weapon_ttt_ak47\shared.lua 
+materials\vgui\ttt\icon_ak47.vmt 
+materials\vgui\ttt\icon_ak47.vtf 

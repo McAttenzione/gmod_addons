@@ -1,13 +1,27 @@
+-- author "Zaratusa"
+-- contact "http://steamcommunity.com/profiles/76561198032479768"
+
 if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("652046425") -- this addon
 	resource.AddWorkshop("620977303") -- Blacklight Heavy Playermodel
 end
 
-local detectiveCanUse = CreateConVar("ttt_juggernautsuit_det", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Detective be able to use the Juggernaut Suit.")
-local traitorCanUse = CreateConVar("ttt_juggernautsuit_tr", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Traitor be able to use the Juggernaut Suit.")
+-- feel for to use this function for your own perk, but please credit me
+local function getNextFreeID()
+	local freeID, i = 1, 1
+	while (freeID == 1) do
+		if (!istable(GetEquipmentItem(ROLE_DETECTIVE, i))
+			and !istable(GetEquipmentItem(ROLE_TRAITOR, i))) then
+			freeID = i
+		end
+		i = i * 2
+	end
 
-EQUIP_JUGGERNAUT_SUIT = 128
+	return freeID
+end
+
+EQUIP_JUGGERNAUT_SUIT = getNextFreeID()
 
 local juggernautSuit = {
 	id = EQUIP_JUGGERNAUT_SUIT,
@@ -15,8 +29,12 @@ local juggernautSuit = {
 	type = "item_passive",
 	material = "vgui/ttt/icon_juggernaut_suit",
 	name = "Juggernaut Suit",
-	desc = "Reduces explosion damage by 80%,\nbut you get a maximum of 50 damage,\nit further reduces fire damage by 65%\nand your movement speed by 25%."
+	desc = "Reduces explosion damage by 80%,\nbut you get a maximum of 50 damage,\nit further reduces fire damage by 65%\nand your movement speed by 25%.",
+	hud = true
 }
+
+local detectiveCanUse = CreateConVar("ttt_juggernautsuit_det", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Detective be able to use the Juggernaut Suit.")
+local traitorCanUse = CreateConVar("ttt_juggernautsuit_tr", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Traitor be able to use the Juggernaut Suit.")
 
 if (detectiveCanUse:GetBool()) then
 	table.insert(EquipmentItems[ROLE_DETECTIVE], juggernautSuit)
@@ -52,12 +70,37 @@ if SERVER then
 		end
 	end)
 else
+	-- feel for to use this function for your own perk, but please credit me
+	-- your perk needs a "hud = true" in the table, to work properly
+	local defaultY = ScrH() / 2 + 20
+	local function getYCoordinate(currentPerkID)
+		local amount, i, perk = 0, 1
+		while (i < currentPerkID) do
+			perk = GetEquipmentItem(LocalPlayer():GetRole(), i)
+			if (istable(perk) and perk.hud and LocalPlayer():HasEquipmentItem(perk.id)) then
+				amount = amount + 1
+			end
+			i = i * 2
+		end
+
+		return defaultY - 80 * amount
+	end
+
+	local yCoordinate = defaultY
+	hook.Add("TTTBoughtItem", "TTTJuggernautSuit", function()
+		yCoordinate = getYCoordinate(EQUIP_JUGGERNAUT_SUIT)
+	end)
+
+	hook.Add("TTTBeginRound", "TTTJuggernautSuit", function()
+		yCoordinate = defaultY
+	end)
+
 	local material = Material("vgui/ttt/perks/juggernaut_suit_hud.png")
 	hook.Add("HUDPaint", "TTTJuggernautSuit", function()
 		if (LocalPlayer():HasEquipmentItem(EQUIP_JUGGERNAUT_SUIT)) then
 			surface.SetMaterial(material)
 			surface.SetDrawColor(255, 255, 255, 255)
-			surface.DrawTexturedRect(20, ScrH() / 2 - 80, 64, 64)
+			surface.DrawTexturedRect(20, yCoordinate, 64, 64)
 		end
 	end)
 end

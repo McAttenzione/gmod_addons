@@ -1,0 +1,3 @@
+gamemodes\terrortown\entities\weapons\weapon_ttt_aug\shared.lua 
+materials\vgui\ttt\icon_aug.vmt 
+materials\vgui\ttt\icon_aug.vtf 

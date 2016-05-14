@@ -2,63 +2,33 @@
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
-local TTT = false
-local SB = false
-if (gmod.GetGamemode().Name == "Trouble in Terrorist Town") then
-	TTT = true
-elseif gmod.GetGamemode().Name == "Sandbox" then
-	SB = true
-end
-
 if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("253737047")
 else
 	SWEP.PrintName = "Golden Deagle"
-	if TTT then
-		SWEP.Slot = 6
-		SWEP.Icon = "vgui/ttt/icon_powerdeagle"
+	SWEP.Slot = 6
+	SWEP.Icon = "vgui/ttt/icon_powerdeagle"
 
-		-- Equipment menu information is only needed on the client
-		SWEP.EquipMenuData = {
-			type = "item_weapon",
-			desc = "Shoot a traitor, kill a traitor.\nShoot an innocent or detective, kill yourself.\nBe careful."
-		}
-	elseif SB then
-		SWEP.Slot = 1
-	end
+	-- Equipment menu information is only needed on the client
+	SWEP.EquipMenuData = {
+		type = "item_weapon",
+		desc = "Shoot a traitor, kill a traitor.\nShoot an innocent or detective, kill yourself.\nBe careful."
+	}
 end
 
---- Gamemode dependent settings ---
-if TTT then
-	SWEP.Base = "weapon_tttbase"
-
-	SWEP.Primary.Ammo = "none"
-	SWEP.Primary.ClipSize = 2
-	SWEP.Primary.DefaultClip = 2
-elseif SB then
-	SWEP.Base = "weapon_base"
-	SWEP.Category = "TTT"
-	SWEP.Purpose = "A weapon originally created for Detectives in TTT."
-	SWEP.Spawnable = true
-	SWEP.AdminOnly = false
-	SWEP.DrawAmmo = false
-	SWEP.DrawCrosshair = true
-
-	SWEP.Primary.Ammo = "pistol"
-	SWEP.Primary.ClipSize = 7
-	SWEP.Primary.DefaultClip = 7
-	SWEP.Secondary.Ammo = "none"
-	SWEP.Secondary.ClipSize = -1
-	SWEP.Secondary.DefaultClip = -1
-end
+-- Always derive from weapon_tttbase
+SWEP.Base = "weapon_tttbase"
 
 --- Default GMod values ---
+SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 0.6
 SWEP.Primary.Recoil = 6
-SWEP.Primary.Cone = 0.02
+SWEP.Primary.Cone = 0
 SWEP.Primary.Damage = 37
 SWEP.Primary.Automatic = false
+SWEP.Primary.ClipSize = 2
+SWEP.Primary.DefaultClip = 2
 SWEP.Primary.Sound = Sound("Golden_Deagle.Single")
 
 --- Model settings ---
@@ -113,10 +83,8 @@ function SWEP:Initialize()
 		self:SetClip1(self.Primary.DefaultClip)
 	elseif (SERVER) then
 		self.shotsFired = 0
-		if TTT then
-			self.fingerprints = {}
-			self:SetIronsights(false)
-		end
+		self.fingerprints = {}
+		self:SetIronsights(false)
 	end
 
 	self:SetDeploySpeed(self.DeploySpeed)
@@ -124,6 +92,8 @@ function SWEP:Initialize()
 	if (self.SetHoldType) then
 		self:SetHoldType(self.HoldType or "pistol")
 	end
+
+	PrecacheParticleSystem("smoke_trail")
 end
 
 function SWEP:PrimaryAttack()
@@ -147,7 +117,7 @@ function SWEP:PrimaryAttack()
 				if (IsValid(ent) and ent:IsPlayer() and dmginfo:IsBulletDamage() and dmginfo:GetAttacker():GetActiveWeapon() == self) then
 					if (ent:IsRole(ROLE_INNOCENT) or ent:IsRole(ROLE_DETECTIVE)) then
 						local newdmg = DamageInfo()
-						newdmg:SetDamage(1000)
+						newdmg:SetDamage(9990)
 						newdmg:SetAttacker(owner)
 						newdmg:SetInflictor(self.Weapon)
 						newdmg:SetDamageType(DMG_BULLET)
@@ -158,7 +128,7 @@ function SWEP:PrimaryAttack()
 						return true -- block all damage
 					elseif (ent:IsRole(ROLE_TRAITOR)) then
 						hook.Remove("EntityTakeDamage", title)
-						dmginfo:ScaleDamage(100) -- should always be deadly
+						dmginfo:ScaleDamage(270) -- deals 9990 damage
 					end
 				end
 			end)
@@ -166,11 +136,7 @@ function SWEP:PrimaryAttack()
 			timer.Simple(1, function() hook.Remove("EntityTakeDamage", title) end) -- wait 1 seconds for the damage
 		end
 
-		if TTT then
-			self:ShootBullet(self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone())
-		elseif SB then
-			self:ShootBullet(self.Primary.Damage, self.Primary.NumShots, self.Primary.Cone)
-		end
+		self:ShootBullet(self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone())
 		self:TakePrimaryAmmo(1)
 
 		if (IsValid(owner) and !owner:IsNPC() and owner.ViewPunch) then
@@ -178,10 +144,5 @@ function SWEP:PrimaryAttack()
 		end
 
 		timer.Simple(0.5, function() if (IsValid(self) and IsValid(self.Owner)) then ParticleEffectAttach("smoke_trail", PATTACH_POINT_FOLLOW, self.Owner:GetViewModel(), 1) end end)
-	end
-end
-
-if SB then
-	function SWEP:SecondaryAttack()
 	end
 end

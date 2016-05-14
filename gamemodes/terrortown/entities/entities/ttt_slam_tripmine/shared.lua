@@ -1,5 +1,7 @@
 DEFINE_BASECLASS("ttt_slam_base")
 
+CreateConVar("ttt_slam_beamsize", 2, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "How visible is the laser beam of the SLAM for innocents.")
+
 function ENT:Initialize()
 	if (IsValid(self)) then
 		self:SetModel(self.Model)

@@ -1,0 +1,4 @@
+gamemodes\terrortown\entities\entities\ttt_hermes_boots.lua 
+materials\vgui\ttt\icon_hermes_boots.vmt 
+materials\vgui\ttt\icon_hermes_boots.vtf 
+materials\vgui\ttt\perks\hermes_boots_hud.png 

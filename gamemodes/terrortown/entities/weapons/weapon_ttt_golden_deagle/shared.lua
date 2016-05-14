@@ -73,6 +73,11 @@ SWEP.IsSilent = false
 -- If NoSights is true, the weapon won't have ironsights
 SWEP.NoSights = false
 
+-- Precache sounds
+function SWEP:Precache()
+	util.PrecacheSound("Golden_Deagle.Single")
+end
+
 function SWEP:Initialize()
 	if (CLIENT and self:Clip1() == -1) then
 		self:SetClip1(self.Primary.DefaultClip)
@@ -112,7 +117,7 @@ function SWEP:PrimaryAttack()
 				if (IsValid(ent) and ent:IsPlayer() and dmginfo:IsBulletDamage() and dmginfo:GetAttacker():GetActiveWeapon() == self) then
 					if (ent:IsRole(ROLE_INNOCENT) or ent:IsRole(ROLE_DETECTIVE)) then
 						local newdmg = DamageInfo()
-						newdmg:SetDamage(1000)
+						newdmg:SetDamage(9990)
 						newdmg:SetAttacker(owner)
 						newdmg:SetInflictor(self.Weapon)
 						newdmg:SetDamageType(DMG_BULLET)
@@ -123,7 +128,7 @@ function SWEP:PrimaryAttack()
 						return true -- block all damage
 					elseif (ent:IsRole(ROLE_TRAITOR)) then
 						hook.Remove("EntityTakeDamage", title)
-						dmginfo:ScaleDamage(100) -- should always be deadly
+						dmginfo:ScaleDamage(270) -- deals 9990 damage
 					end
 				end
 			end)

@@ -13,7 +13,7 @@ else
 	-- Equipment menu information is only needed on the client
 	SWEP.EquipMenuData = {
 		type = "item_weapon",
-		desc = "Have a snack\nand heal yourself or others."
+		desc = "Have a snack\nand heal yourself or others.\nBe careful when you throw it\non the ground, it can spoil."
 	}
 end
 
@@ -70,6 +70,15 @@ SWEP.NoSights = false
 
 local HealSound = Sound("weapons/sandwich/eat.wav")
 
+function SWEP:SetupDataTables()
+	self:NetworkVar("Int", 0, "Permanency")
+end
+
+function SWEP:Initialize()
+	self.FirstCheck = true
+	self:SetPermanency(100)
+end
+
 function SWEP:PrimaryAttack()
 	if (SERVER and self:CanPrimaryAttack() and self:GetNextPrimaryFire() <= CurTime()) then
 		self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
@@ -83,7 +92,7 @@ function SWEP:PrimaryAttack()
 				mask = MASK_SOLID
 			})
 			local ent = tr.Entity
-			if (IsValid(ent) and ent:IsPlayer() and ent:Health() < ent:GetMaxHealth()) then
+			if (IsValid(ent) and ent:IsPlayer()) then
 				self:Heal(ent)
 			end
 		end
@@ -95,14 +104,32 @@ function SWEP:SecondaryAttack()
 		self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
 
 		local owner = self.Owner
-		if (IsValid(owner) and owner:Health() < owner:GetMaxHealth()) then
+		if (IsValid(owner)) then
 			self:Heal(owner)
 		end
 	end
 end
 
 function SWEP:Heal(player)
-	player:SetHealth(math.min(player:GetMaxHealth(), player:Health() + self.HealAmount))
+	-- get a value between -1.0 and 1.0
+	local perm = (self:GetPermanency() - 50) / 50
+	if (self:GetPermanency() < 50) then
+		local damage = -1 * perm * self.HealAmount
+		-- random change of 25% to die, due to the sandwich
+		if ((player:Health() - damage) <= 0 and math.random() > 0.25) then
+			damage = (1 - player:Health()) * -1 -- decreases life to 1
+		end
+
+		local dmg = DamageInfo()
+		dmg:SetDamage(damage)
+		dmg:SetAttacker(self.Owner)
+		dmg:SetInflictor(self.Weapon)
+		dmg:SetDamageType(DMG_PARALYZE)
+		dmg:SetDamagePosition(player:GetPos())
+		player:TakeDamageInfo(dmg)
+	else
+		player:SetHealth(math.min(player:GetMaxHealth(), player:Health() + (perm * self.HealAmount)))
+	end
 	player:EmitSound(HealSound)
 	player:SetAnimation(PLAYER_ATTACK1)
 
@@ -110,6 +137,33 @@ function SWEP:Heal(player)
 	if (self.Weapon:Clip1() < 1) then
 		self:Remove()
 	end
+end
+
+function SWEP:OnDrop()
+	if (IsValid(self) and self:GetPermanency() > 0) then
+		if (self.FirstCheck) then
+			timer.Simple(3, function()
+				if (IsValid(self) and self.FirstCheck) then
+					self:SetPermanency(50)
+					self.FirstCheck = false
+				end
+			end)
+		end
+
+		local ID = self:EntIndex()
+		timer.Create("SandwichPermDec" .. ID, 2, 0, function()
+			if (IsValid(self) and self:GetPermanency() > 0) then
+				self:SetPermanency(self:GetPermanency() - 5)
+			else
+				timer.Remove("SandwichPermDec" .. ID)
+			end
+		end)
+	end
+end
+
+function SWEP:Deploy()
+	timer.Remove("SandwichPermDec" .. self:EntIndex())
+	return true
 end
 
 function SWEP:OnRemove()
