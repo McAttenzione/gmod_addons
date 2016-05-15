@@ -1,6 +1,6 @@
 "Vertexlitgeneric"
 {
-	"$baseTexture" "models/weapons/v_models/zaratusa.gauss.rifle/gauss_a_d"
+	"$baseTexture" "models/weapons/v_models/zaratusa.gauss.rifle/gauss_a_d_blue"
 	"$bumpmap" "models/weapons/v_models/zaratusa.gauss.rifle/gauss_a_n"
 	"$PhongExponentTexture" "models/weapons/v_models/zaratusa.gauss.rifle/gauss_a_s"
 	"$envmap" "env_cubemap"

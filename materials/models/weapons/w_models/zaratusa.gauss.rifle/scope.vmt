@@ -1,6 +1,6 @@
 "Vertexlitgeneric"
 {
-	"$baseTexture" "models/weapons/v_models/zaratusa.gauss.rifle/scope_d"
+	"$baseTexture" "models/weapons/v_models/zaratusa.gauss.rifle/scope_d_blue"
 	"$bumpmap" "models/weapons/v_models/zaratusa.gauss.rifle/scope_n"
 
 	"$envmaptint" "[.03 .03 .03]"
