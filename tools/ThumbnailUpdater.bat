@@ -11,8 +11,7 @@ for /f "tokens=1,2*" %%E in ('reg query HKEY_CURRENT_USER\Software\Valve\Steam')
 :start
 set /p ID="On which Workshop ID do you want to update the thumbnail?: "
 
-cd /d %STEAMPATH%steamapps/common/GarrysMod/bin
-gmpublish.exe update -icon "%CD%\image.jpg" -id "%ID%"
+%STEAMPATH%steamapps/common/GarrysMod/bin/gmpublish.exe update -icon ""%CD%\image.jpg"" -id "%ID%"
 
 echo.
 goto :start

@@ -45,7 +45,11 @@ end
 if SERVER then
 	hook.Add("TTTPlayerSpeed", "TTTHermesBoots", function(ply)
 		if (IsValid(ply) and ply:HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
-			return 1.3 -- 30% increase
+			if (EQUIP_JUGGERNAUT_SUIT and ply:HasEquipmentItem(EQUIP_JUGGERNAUT_SUIT)) then
+				return 1.05 -- 5% increase with juggernaut suit
+			else
+				return 1.3 -- 30% increase
+			end
 		end
 	end)
 else
@@ -66,12 +70,11 @@ else
 	end
 
 	local yCoordinate = defaultY
+	-- best performance, but the has about 0.5 seconds delay to the HasEquipmentItem() function
 	hook.Add("TTTBoughtItem", "TTTHermesBoots", function()
-		yCoordinate = getYCoordinate(EQUIP_HERMES_BOOTS)
-	end)
-
-	hook.Add("TTTBeginRound", "TTTHermesBoots", function()
-		yCoordinate = defaultY
+		if (LocalPlayer():HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
+			yCoordinate = getYCoordinate(EQUIP_HERMES_BOOTS)
+		end
 	end)
 
 	local material = Material("vgui/ttt/perks/hermes_boots_hud.png")

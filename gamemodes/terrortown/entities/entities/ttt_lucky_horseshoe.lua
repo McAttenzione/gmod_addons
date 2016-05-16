@@ -69,12 +69,11 @@ else
 	end
 
 	local yCoordinate = defaultY
+	-- best performance, but the has about 0.5 seconds delay to the HasEquipmentItem() function
 	hook.Add("TTTBoughtItem", "TTTLuckyHorseshoe", function()
-		yCoordinate = getYCoordinate(EQUIP_LUCKY_HORSESHOE)
-	end)
-
-	hook.Add("TTTBeginRound", "TTTLuckyHorseshoe", function()
-		yCoordinate = defaultY
+		if (LocalPlayer():HasEquipmentItem(EQUIP_LUCKY_HORSESHOE)) then
+			yCoordinate = getYCoordinate(EQUIP_LUCKY_HORSESHOE)
+		end
 	end)
 
 	local material = Material("vgui/ttt/perks/lucky_horseshoe_hud.png")
