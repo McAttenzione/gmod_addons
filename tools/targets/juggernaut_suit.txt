@@ -1,4 +1,6 @@
-gamemodes\terrortown\entities\entities\ttt_juggernaut_suit.lua 
+gamemodes\terrortown\entities\entities\ttt_juggernaut_suit\cl_init.lua 
+gamemodes\terrortown\entities\entities\ttt_juggernaut_suit\init.lua 
+gamemodes\terrortown\entities\entities\ttt_juggernaut_suit\shared.lua 
 materials\vgui\ttt\icon_juggernaut_suit.vmt 
 materials\vgui\ttt\icon_juggernaut_suit.vtf 
 materials\vgui\ttt\perks\juggernaut_suit_hud.png 

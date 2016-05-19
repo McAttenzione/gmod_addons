@@ -1,4 +1,4 @@
-gamemodes\terrortown\entities\weapons\weapon_ttt_jihad_bomb_buyable\shared.lua 
+gamemodes\terrortown\entities\weapons\weapon_ttt_jihad_bomb\shared.lua
 materials\models\weapons\v_models\pr0d.c4\bomb1.vmt 
 materials\models\weapons\v_models\pr0d.c4\bomb1.vtf 
 materials\models\weapons\v_models\pr0d.c4\bomb1_planted.vtf 

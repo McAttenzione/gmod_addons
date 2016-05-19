@@ -1,4 +1,4 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
@@ -6,15 +6,22 @@ if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("253737741")
 else
-	SWEP.PrintName = "SG-552"
+	LANG.AddToLanguage("english", "sg552_name", "SG-552")
+
+	SWEP.PrintName = "sg552_name"
 	SWEP.Slot = 2
 	SWEP.Icon = "vgui/ttt/icon_sg552"
+
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+	SWEP.ViewModelFOV = 59
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Delay = 0.11
 SWEP.Primary.Recoil = 0.96
@@ -28,19 +35,15 @@ SWEP.Primary.Sound = Sound("Weapon_SG552.Single")
 SWEP.Secondary.Delay = 0.3
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "ar2"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 59
 SWEP.ViewModel = Model("models/weapons/cstrike/c_rif_sg552.mdl")
 SWEP.WorldModel = Model("models/weapons/w_rif_sg552.mdl")
 
 SWEP.IronSightsPos = Vector(5, -15, -2)
 SWEP.IronSightsAng = Vector(2.6, 1.37, 3.5)
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
@@ -63,9 +66,10 @@ SWEP.IsSilent = false
 -- If NoSights is true, the weapon won't have ironsights
 SWEP.NoSights = false
 
--- Add some zoom to the scope for this gun
+-- add some zoom to the scope for this gun
 function SWEP:SecondaryAttack()
 	if (self.IronSightsPos and self:GetNextSecondaryFire() <= CurTime()) then
+		-- set the delay for left and right click
 		self:SetNextPrimaryFire(CurTime() + self.Secondary.Delay)
 		self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
 
@@ -111,7 +115,7 @@ function SWEP:Holster()
 	return true
 end
 
--- Draw the scope on the HUD
+-- draw the scope on the HUD
 if CLIENT then
 	local scope = surface.GetTextureID("sprites/scope")
 	function SWEP:DrawHUD()

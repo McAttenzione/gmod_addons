@@ -1,11 +1,11 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "thumper" -- use a unused ammo type
 SWEP.Primary.Delay = 2
 SWEP.Primary.Recoil = 6
@@ -20,19 +20,15 @@ SWEP.Primary.SoundLevel = 120
 SWEP.Secondary.Delay = 0.5
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "ar2"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 64
 SWEP.ViewModel = Model("models/weapons/zaratusa/gauss_rifle/v_gauss_rifle.mdl")
 SWEP.WorldModel = Model("models/weapons/zaratusa/gauss_rifle/w_gauss_rifle.mdl")
 
 SWEP.IronSightsPos = Vector(-1.55, -22, 0)
 SWEP.IronSightsAng = Vector(0, 0, 0)
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
@@ -68,7 +64,7 @@ function SWEP:Initialize()
 	elseif (SERVER) then
 		self.fingerprints = {}
 		self:SetIronsights(false)
-		-- aditional magazine, seems to be bugged, if using DefaultClip
+		-- aditional magazine, seems to be bugged, when using DefaultClip
 		timer.Simple(0.1, function() if (IsValid(self.Owner)) then self.Owner:GiveAmmo(1, "thumper", true) end end)
 	end
 
@@ -141,9 +137,10 @@ function SWEP:UpdateNextIdle()
 	self:SetNWFloat("NextIdle", CurTime() + self.Owner:GetViewModel():SequenceDuration())
 end
 
--- Add some zoom to the scope for this gun
+-- add some zoom to the scope for this gun
 function SWEP:SecondaryAttack()
 	if (self.IronSightsPos and self:GetNextSecondaryFire() <= CurTime()) then
+		-- set the delay for left and right click
 		self:SetNextPrimaryFire(CurTime() + self.Secondary.Delay)
 		self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
 
@@ -167,6 +164,11 @@ function SWEP:SetZoom(state)
 	end
 end
 
+function SWEP:ResetIronSights()
+	self:SetIronsights(false)
+	self:SetZoom(false)
+end
+
 function SWEP:PreDrop()
 	self:ResetIronSights()
 	return self.BaseClass.PreDrop(self)
@@ -180,11 +182,7 @@ function SWEP:Reload()
 end
 
 function SWEP:Holster()
+	self.Owner:GetViewModel():StopParticles()
 	self:ResetIronSights()
 	return true
-end
-
-function SWEP:ResetIronSights()
-	self:SetIronsights(false)
-	self:SetZoom(false)
 end

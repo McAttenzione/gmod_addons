@@ -1,4 +1,4 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
@@ -6,15 +6,22 @@ if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("253737973")
 else
-	SWEP.PrintName = "TMP"
+	LANG.AddToLanguage("english", "tmp_name", "TMP")
+
+	SWEP.PrintName = "tmp_name"
 	SWEP.Slot = 2
 	SWEP.Icon = "vgui/ttt/icon_tmp"
+
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+	SWEP.ViewModelFOV = 64
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Delay = 0.08
 SWEP.Primary.Recoil	= 1.1
@@ -26,19 +33,15 @@ SWEP.Primary.ClipMax = 60
 SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Sound = Sound("Weapon_TMP.Single")
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "ar2"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 64
 SWEP.ViewModel = Model("models/weapons/cstrike/c_smg_tmp.mdl")
 SWEP.WorldModel	= Model("models/weapons/w_smg_tmp.mdl")
 
 SWEP.IronSightsPos = Vector (-6.86, -6.8, 2.5)
 SWEP.IronSightsAng = Vector (0, 0, 0)
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.

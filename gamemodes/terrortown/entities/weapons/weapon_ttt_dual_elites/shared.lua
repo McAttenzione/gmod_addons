@@ -1,4 +1,4 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
@@ -6,15 +6,22 @@ if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("634300147")
 else
-	SWEP.PrintName = "Dual Elites"
+	LANG.AddToLanguage("english", "dual_elites_name", "Dual Elites")
+
+	SWEP.PrintName = "dual_elites_name"
 	SWEP.Slot = 1
 	SWEP.Icon = "vgui/ttt/icon_dual_elites"
+
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+	SWEP.ViewModelFOV = 55
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "pistol"
 SWEP.Primary.Delay = 0.15
 SWEP.Primary.Recoil = 1.5
@@ -26,16 +33,12 @@ SWEP.Primary.ClipMax = 60
 SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Sound = Sound("Weapon_Elite.Single")
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "duel"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 55
 SWEP.ViewModel  = Model("models/weapons/cstrike/c_pist_elite.mdl")
 SWEP.WorldModel = Model("models/weapons/w_pist_elite.mdl")
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.

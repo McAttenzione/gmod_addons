@@ -13,6 +13,5 @@ gamemodes\terrortown\entities\entities\ttt_slam_tripmine\shared.lua
 gamemodes\terrortown\entities\weapons\weapon_ttt_slam\cl_init.lua 
 gamemodes\terrortown\entities\weapons\weapon_ttt_slam\init.lua 
 gamemodes\terrortown\entities\weapons\weapon_ttt_slam\shared.lua 
-lua\autorun\slam_autorun.lua 
 materials\vgui\ttt\icon_slam.vmt 
 materials\vgui\ttt\icon_slam.vtf 

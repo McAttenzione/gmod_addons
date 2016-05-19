@@ -1,4 +1,4 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
@@ -6,21 +6,29 @@ if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("639762141")
 else
-	SWEP.PrintName = "Dragon Elites"
+	LANG.AddToLanguage("english", "dragon_elites_name", "Dragon Elites")
+	LANG.AddToLanguage("english", "dragon_elites_desc", "Dual Dragon Elites,\nwith one additional magazine.\n\nGet the Style.")
+
+	SWEP.PrintName = "dragon_elites_name"
 	SWEP.Slot = 1
 	SWEP.Icon = "vgui/ttt/icon_dragon_elites"
 
-	-- Equipment menu information is only needed on the client
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+	SWEP.ViewModelFOV = 74
+
+	-- equipment menu information is only needed on the client
 	SWEP.EquipMenuData = {
 		type = "item_weapon",
-		desc = "Dual Dragon Elites,\nwith one additional magazine.\n\nGet the Style."
+		desc = "dragon_elites_desc"
 	}
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "pistol"
 SWEP.Primary.Delay = 0.1
 SWEP.Primary.Recoil = 1.5
@@ -34,16 +42,12 @@ SWEP.Primary.Sound = Sound("Dragon_Elite.Single")
 
 SWEP.HeadshotMultiplier = 2.97
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "duel"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 74
 SWEP.ViewModel = Model("models/weapons/zaratusa/dragon_elites/v_dragon_elites.mdl")
 SWEP.WorldModel = Model("models/weapons/zaratusa/dragon_elites/w_dragon_elites.mdl")
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
@@ -79,7 +83,7 @@ function SWEP:Initialize()
 	elseif (SERVER) then
 		self.fingerprints = {}
 		self:SetIronsights(false)
-		-- aditional magazine, seems to be bugged, if using DefaultClip
+		-- aditional magazine, seems to be bugged, when using DefaultClip
 		timer.Simple(0.1, function() if (IsValid(self.Owner)) then self.Owner:GiveAmmo(30, "pistol", false) end end)
 	end
 
@@ -137,6 +141,7 @@ function SWEP:PrimaryAttack()
 	end
 end
 
+-- just a slightly modified version of the weapon_tttbase
 local sparkle = CLIENT and CreateConVar("ttt_crazy_sparks", "0", FCVAR_ARCHIVE)
 function SWEP:ShootBullet(dmg, recoil, numbul, cone)
 	self:ShootEffects()
@@ -162,7 +167,7 @@ function SWEP:ShootBullet(dmg, recoil, numbul, cone)
 
 		self.Owner:FireBullets(bullet)
 
-		-- Owner can die after firebullets
+		-- owner can die after firebullets
 		if (IsValid(self.Owner) and self.Owner:Alive() and (!self.Owner:IsNPC())
 			and ((game.SinglePlayer() and SERVER)
 				or ((!game.SinglePlayer()) and CLIENT and IsFirstTimePredicted()))) then
@@ -176,6 +181,7 @@ function SWEP:ShootBullet(dmg, recoil, numbul, cone)
 	end
 end
 
+-- just a slightly modified version of the weapon_tttbase
 function SWEP:ShootEffects()
 	local sequence
 	if self.AnimateRight then
@@ -209,6 +215,11 @@ end
 
 function SWEP:Deploy()
 	self:SetNWInt("ShotsFired", 0)
+	return true
+end
+
+function SWEP:Holster()
+	self.Owner:GetViewModel():StopParticles()
 	return true
 end
 

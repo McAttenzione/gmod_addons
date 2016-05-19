@@ -1,34 +1,28 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
-local cfg = { }
-if file.Exists("ttt/weapons/slam/config.txt", "DATA") then
-	cfg = util.JSONToTable(file.Read("ttt/weapons/slam/config.txt", "DATA"))
-end
+CreateConVar("ttt_slam_max", 5, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "How many SLAM's should everyone be able to carry?")
+CreateConVar("ttt_slam_bought", 2, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "How many SLAM's should you receive, when you buy a SLAM?")
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
-SWEP.Primary.Delay = 1.5
+SWEP.Primary.Delay = 1.25
 SWEP.Primary.Automatic = false
-SWEP.Primary.ClipSize = cfg.MaxSlams or 5
-SWEP.Primary.DefaultClip = cfg.BoughtSlams or 2
+SWEP.Primary.ClipSize = GetConVar("ttt_slam_max"):GetInt()
+SWEP.Primary.DefaultClip = GetConVar("ttt_slam_bought"):GetInt()
 SWEP.Secondary.Delay = 0.5
 SWEP.FiresUnderwater = false
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "slam"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 64
 SWEP.ViewModel = Model("models/weapons/v_slam.mdl")
 SWEP.WorldModel	= Model("models/weapons/w_slam.mdl")
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.

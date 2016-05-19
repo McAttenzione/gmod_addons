@@ -1,6 +1,8 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 
+util.AddNetworkString("TTT_SLAMWarning")
+
 include('shared.lua')
 
 hook.Add("TTTPrepareRound", "SLAMClean", function()

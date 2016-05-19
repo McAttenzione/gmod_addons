@@ -1,4 +1,4 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
@@ -6,21 +6,29 @@ if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("637848943")
 else
-	SWEP.PrintName = "Golden Deagle"
+	LANG.AddToLanguage("english", "golden_deagle_name", "Golden Deagle")
+	LANG.AddToLanguage("english", "golden_deagle_desc", "Shoot a traitor, kill a traitor.\nShoot an innocent or detective, kill yourself.\nBe careful.")
+
+	SWEP.PrintName = "golden_deagle_name"
 	SWEP.Slot = 6
 	SWEP.Icon = "vgui/ttt/icon_golden_deagle"
+
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = true -- should the weapon be hold with the right or the left hand
+	SWEP.ViewModelFOV = 85
 
 	-- Equipment menu information is only needed on the client
 	SWEP.EquipMenuData = {
 		type = "item_weapon",
-		desc = "Shoot a traitor, kill a traitor.\nShoot an innocent or detective, kill yourself.\nBe careful."
+		desc = "golden_deagle_desc"
 	}
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 0.6
 SWEP.Primary.Recoil = 6
@@ -31,19 +39,15 @@ SWEP.Primary.ClipSize = 2
 SWEP.Primary.DefaultClip = 2
 SWEP.Primary.Sound = Sound("Golden_Deagle.Single")
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "pistol"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = true
-SWEP.ViewModelFOV = 85
 SWEP.ViewModel = Model("models/weapons/zaratusa/golden_deagle/v_golden_deagle.mdl")
 SWEP.WorldModel = Model("models/weapons/zaratusa/golden_deagle/w_golden_deagle.mdl")
 
 SWEP.IronSightsPos = Vector(3.76, -0.5, 1.67)
 SWEP.IronSightsAng = Vector(-0.6, 0, 0)
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
@@ -73,7 +77,7 @@ SWEP.IsSilent = false
 -- If NoSights is true, the weapon won't have ironsights
 SWEP.NoSights = false
 
--- Precache sounds
+-- precache sounds
 function SWEP:Precache()
 	util.PrecacheSound("Golden_Deagle.Single")
 end
@@ -125,9 +129,9 @@ function SWEP:PrimaryAttack()
 
 						hook.Remove("EntityTakeDamage", title) -- remove hook before applying new damage
 						owner:TakeDamageInfo(newdmg)
-						return true -- block all damage
+						return true -- block all damage on the target
 					elseif (ent:IsRole(ROLE_TRAITOR)) then
-						hook.Remove("EntityTakeDamage", title)
+						hook.Remove("EntityTakeDamage", title) -- remove hook before applying new damage
 						dmginfo:ScaleDamage(270) -- deals 9990 damage
 					end
 				end
@@ -145,4 +149,9 @@ function SWEP:PrimaryAttack()
 
 		timer.Simple(0.5, function() if (IsValid(self) and IsValid(self.Owner)) then ParticleEffectAttach("smoke_trail", PATTACH_POINT_FOLLOW, self.Owner:GetViewModel(), 1) end end)
 	end
+end
+
+function SWEP:Holster()
+	self.Owner:GetViewModel():StopParticles()
+	return true
 end

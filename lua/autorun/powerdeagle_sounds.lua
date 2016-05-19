@@ -5,3 +5,5 @@ sound.Add({
 	pitch = {95, 105},
 	sound = "weapons/golden_deagle/deagle-1.wav"
 })
+
+game.AddParticles("particles/smoke_trail.pcf")

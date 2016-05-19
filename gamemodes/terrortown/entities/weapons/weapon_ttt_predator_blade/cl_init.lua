@@ -1,13 +1,21 @@
 include('shared.lua')
 
-SWEP.PrintName = "Predator Blade"
+LANG.AddToLanguage("english", "predator_blade_name", "Predator Blade")
+LANG.AddToLanguage("english", "predator_blade_desc", "Awaken the predator in you.\nInstant kill everyone without body armor.")
+
+SWEP.PrintName = "predator_blade_name"
 SWEP.Slot = 6
 SWEP.Icon = "vgui/ttt/icon_predator_blade"
 
--- Equipment menu information is only needed on the client
+-- client side model settings
+SWEP.UseHands = true -- should the hands be displayed
+SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+SWEP.ViewModelFOV = 65
+
+-- equipment menu information is only needed on the client
 SWEP.EquipMenuData = {
 	type = "item_weapon",
-	desc = "Awaken the predator in you.\nInstant kill everyone without body armor."
+	desc = "predator_blade_desc"
 }
 
 function SWEP:DrawHUD()

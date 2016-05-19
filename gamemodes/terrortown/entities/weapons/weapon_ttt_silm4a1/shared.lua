@@ -1,4 +1,4 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
@@ -6,21 +6,29 @@ if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("253737867")
 else
-	SWEP.PrintName = "Silenced M4A1"
+	LANG.AddToLanguage("english", "silenced_m4a1_name", "Silenced M4A1")
+	LANG.AddToLanguage("english", "silenced_m4a1_desc", "A modified M4A1 carbine with a suppressor.\nVictims will not scream when they're killed.")
+
+	SWEP.PrintName = "silenced_m4a1_name"
 	SWEP.Slot = 6
 	SWEP.Icon = "vgui/ttt/icon_silm4a1"
+
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+	SWEP.ViewModelFOV = 64
 
 	-- Equipment menu information is only needed on the client
 	SWEP.EquipMenuData = {
 		type = "item_weapon",
-		desc = "A modified M4A1 carbine with a suppressor.\nVictims will not scream when they're killed."
+		desc = "silenced_m4a1_desc"
 	}
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "pistol"
 SWEP.Primary.Delay = 0.114
 SWEP.Primary.Recoil	= 1.36
@@ -33,19 +41,19 @@ SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Sound = Sound("Weapon_M4A1.Silenced")
 SWEP.Secondary.Delay = 0.3
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "ar2"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 64
 SWEP.ViewModel = Model("models/weapons/cstrike/c_rif_m4a1.mdl")
 SWEP.WorldModel	= Model("models/weapons/w_rif_m4a1_silencer.mdl")
 
 SWEP.IronSightsPos = Vector(-7.58, -9.2, 0.55)
 SWEP.IronSightsAng = Vector(2.599, -1.3, -3.6)
 
---- TTT config values ---
+-- change the animation to the silenced one's
+SWEP.PrimaryAnim = ACT_VM_PRIMARYATTACK_SILENCED
+SWEP.ReloadAnim = ACT_VM_RELOAD_SILENCED
+
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
@@ -75,11 +83,7 @@ SWEP.IsSilent = true
 -- If NoSights is true, the weapon won't have ironsights
 SWEP.NoSights = false
 
--- Change the animation to the silenced one's
-SWEP.PrimaryAnim = ACT_VM_PRIMARYATTACK_SILENCED
-SWEP.ReloadAnim = ACT_VM_RELOAD_SILENCED
-
--- Add some zoom to ironsights for this gun
+-- add some zoom to the scope for this gun
 function SWEP:SecondaryAttack()
 	if (self.IronSightsPos and self:GetNextSecondaryFire() <= CurTime()) then
 		self:SetNextPrimaryFire(CurTime() + self.Secondary.Delay)

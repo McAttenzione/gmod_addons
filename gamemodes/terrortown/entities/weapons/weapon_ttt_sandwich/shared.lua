@@ -1,26 +1,37 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
+
+CreateConVar("ttt_sandwich_detective", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should Detectives be able to use the Sandwich?")
+CreateConVar("ttt_sandwich_traitor", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should Traitors be able to use the Sandwich?")
 
 if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("645663146")
 else
-	SWEP.PrintName = "Sandwich"
+	LANG.AddToLanguage("english", "sandwich_name", "Sandwich")
+	LANG.AddToLanguage("english", "sandwich_desc", "Have a snack\nand heal yourself or others.\nBe careful when you throw it\non the ground, it can spoil.")
+
+	SWEP.PrintName = "sandwich_name"
 	SWEP.Slot = 7
 	SWEP.Icon = "vgui/ttt/icon_sandwich"
+
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+	SWEP.ViewModelFOV = 70
 
 	-- Equipment menu information is only needed on the client
 	SWEP.EquipMenuData = {
 		type = "item_weapon",
-		desc = "Have a snack\nand heal yourself or others.\nBe careful when you throw it\non the ground, it can spoil."
+		desc = "sandwich_desc"
 	}
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 2
 SWEP.Primary.Automatic = false
@@ -29,16 +40,12 @@ SWEP.Primary.DefaultClip = 4
 
 SWEP.HealAmount = 25
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "slam"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 70
 SWEP.ViewModel = Model("models/weapons/zaratusa/sandwich/v_sandwich.mdl")
 SWEP.WorldModel = Model("models/weapons/zaratusa/sandwich/w_sandwich.mdl")
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
@@ -54,7 +61,14 @@ SWEP.AmmoEnt = "none"
 
 -- CanBuy is a table of ROLE_* entries like ROLE_TRAITOR and ROLE_DETECTIVE. If
 -- a role is in this table, those players can buy this.
-SWEP.CanBuy = { ROLE_DETECTIVE, ROLE_TRAITOR }
+SWEP.CanBuy = {}
+
+if (GetConVar("ttt_sandwich_detective"):GetBool()) then
+	table.insert(SWEP.CanBuy, ROLE_DETECTIVE)
+end
+if (GetConVar("ttt_sandwich_traitor"):GetBool()) then
+	table.insert(SWEP.CanBuy, ROLE_TRAITOR)
+end
 
 -- If LimitedStock is true, you can only buy one per round.
 SWEP.LimitedStock = true
@@ -110,6 +124,7 @@ function SWEP:SecondaryAttack()
 	end
 end
 
+-- heals or damages the given player, depending on the permanency
 function SWEP:Heal(player)
 	-- get a value between -1.0 and 1.0
 	local perm = (self:GetPermanency() - 50) / 50

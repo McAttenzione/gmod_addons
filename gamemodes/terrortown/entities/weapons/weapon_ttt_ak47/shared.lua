@@ -1,4 +1,4 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
@@ -6,21 +6,29 @@ if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("253736148")
 else
-	SWEP.PrintName = "AK47"
+	LANG.AddToLanguage("english", "ak47_name", "AK47")
+	LANG.AddToLanguage("english", "ak47_desc", "Very high damage assault rifle.\n\nHas very high recoil.")
+
+	SWEP.PrintName = "ak47_name"
 	SWEP.Slot = 6
 	SWEP.Icon = "vgui/ttt/icon_ak47"
 
-	-- Equipment menu information is only needed on the client
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+	SWEP.ViewModelFOV = 50
+
+	-- equipment menu information is only needed on the client
 	SWEP.EquipMenuData = {
 		type = "item_weapon",
-		desc = "Very high damage assault rifle.\n\nHas very high recoil."
+		desc = "ak47_desc"
 	}
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Delay = 0.1
 SWEP.Primary.Recoil = 1.9
@@ -32,19 +40,15 @@ SWEP.Primary.ClipMax = 60
 SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Sound = Sound("Weapon_AK47.Single")
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "ar2"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 50
 SWEP.ViewModel = Model("models/weapons/cstrike/c_rif_ak47.mdl")
 SWEP.WorldModel = Model("models/weapons/w_rif_ak47.mdl")
 
 SWEP.IronSightsPos = Vector(-6.56, -11, 2.4)
 SWEP.IronSightsAng = Vector(2.4, 0, 0)
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.

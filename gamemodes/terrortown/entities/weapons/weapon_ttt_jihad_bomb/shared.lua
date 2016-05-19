@@ -1,33 +1,39 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
+
+CreateConVar("ttt_jihad_buyable", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Jihad Bomb be buyable for traitors?")
+CreateConVar("ttt_jihad_inloadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Jihad Bomb be in the loadout of the Traitors?")
 
 if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("634300198")
 else
-	SWEP.PrintName = "Jihad Bomb"
+	LANG.AddToLanguage("english", "jihad_bomb_name", "Jihad Bomb")
+	LANG.AddToLanguage("english", "jihad_bomb_desc", "Sacrifice yourself to Allah.\nYour 72 virgins await.\n\nNOTE: No refund after use.")
+
+	SWEP.PrintName = "jihad_bomb_name"
 	SWEP.Slot = 8
 	SWEP.Icon = "vgui/ttt/icon_jihad_bomb"
 
 	-- Equipment menu information is only needed on the client
 	SWEP.EquipMenuData = {
 		type = "item_weapon",
-		desc = "Sacrifice yourself to Allah.\nYour 72 virgins await.\n\nNOTE: No refund after use."
+		desc = "jihad_bomb_desc"
 	}
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 5
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "slam"
 
 SWEP.UseHands = true
@@ -37,7 +43,7 @@ SWEP.ViewModelFOV = 54
 SWEP.ViewModel = Model("models/weapons/zaratusa/jihad_bomb/v_jb.mdl")
 SWEP.WorldModel = Model("models/weapons/zaratusa/jihad_bomb/w_jb.mdl")
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
@@ -48,12 +54,20 @@ SWEP.Kind = WEAPON_ROLE
 -- then this gun can be spawned as a random weapon.
 SWEP.AutoSpawnable = false
 
--- CanBuy is a table of ROLE_* entries like ROLE_TRAITOR and ROLE_DETECTIVE. If
--- a role is in this table, those players can buy this.
-SWEP.CanBuy = { ROLE_TRAITOR }
+if (GetConVar("ttt_jihad_buyable"):GetBool()) then
+	-- CanBuy is a table of ROLE_* entries like ROLE_TRAITOR and ROLE_DETECTIVE. If
+	-- a role is in this table, those players can buy this.
+	SWEP.CanBuy = { ROLE_TRAITOR }
 
--- If LimitedStock is true, you can only buy one per round.
-SWEP.LimitedStock = true
+	-- If LimitedStock is true, you can only buy one per round.
+	SWEP.LimitedStock = true
+end
+
+if (GetConVar("ttt_jihad_inloadout"):GetBool()) then
+	-- InLoadoutFor is a table of ROLE_* entries that specifies which roles should
+	-- receive this weapon as soon as the round starts.
+	SWEP.InLoadoutFor = { ROLE_TRAITOR }
+end
 
 -- If AllowDrop is false, players can't manually drop the gun with Q
 SWEP.AllowDrop = true
@@ -64,7 +78,7 @@ SWEP.IsSilent = false
 -- If NoSights is true, the weapon won't have ironsights
 SWEP.NoSights = true
 
--- Precache sounds and models
+-- precache sounds and models
 function SWEP:Precache()
 	util.PrecacheSound("weapons/jihad_bomb/jihad.wav")
 	util.PrecacheSound("weapons/jihad_bomb/big_explosion.wav")
@@ -98,22 +112,21 @@ local function ScorchUnderRagdoll(ent)
 	util.PaintDown(mid, "Scorch", ent)
 end
 
--- Checks if the burn time is over, or if the body is in water
+-- checks if the burn time is over, or if the body is in water
 local function RunIgniteTimer(tname, body, burn_destroy)
-	if (IsValid(body)) then
+	if (IsValid(body) and body:IsOnFire()) then
 		if (CurTime() > burn_destroy) then
 			body:SetNotSolid(true)
 			body:Remove()
 		elseif (body:WaterLevel() > 0) then
 			body:Extinguish()
-			timer.Destroy(tname)
 		end
 	else
 		timer.Destroy(tname)
 	end
 end
 
--- Burn the body of the user
+-- burn the body of the user
 local function BurnOwnersBody(model)
 	local body
 	-- Search for all ragdolls and the one with the given model
@@ -134,7 +147,7 @@ local function BurnOwnersBody(model)
 	end
 end
 
--- Particle effects / Begin attack
+-- particle effects / begin attack
 function SWEP:PrimaryAttack()
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 	self.AllowDrop = false
@@ -148,18 +161,17 @@ function SWEP:PrimaryAttack()
 	util.Effect("Sparks", effectdata)
 	self.BaseClass.ShootEffects(self)
 
-
 	-- The rest is only done on the server
 	if SERVER then
 		local owner = self.Owner
 		self:SetNWBool("Exploding", true)
 		-- Only explode, if the code was completely typed in
-		timer.Simple(2.05, function() if (IsValid(owner)) then self:Explode() end end)
+		timer.Simple(2.05, function() if (IsValid(self) and IsValid(owner) and owner:GetActiveWeapon():GetClass() == self:GetClass()) then self:Explode() end end)
 		self.Owner:EmitSound("weapons/jihad_bomb/jihad.wav", math.random(100, 150), math.random(95, 105))
 	end
 end
 
--- Explosion properties
+-- explosion properties
 function SWEP:Explode()
 	local pos = self:GetPos()
 	local dmg = 200
@@ -197,7 +209,7 @@ function SWEP:Explode()
 	BurnOwnersBody(model)
 end
 
--- Calculate who is affected by the damage
+-- calculate who is affected by the damage
 function SWEP:SphereDamage(dmgowner, center, radius)
 	local r = radius ^ 2 -- square so we can compare with dotproduct directly
 

@@ -1,4 +1,6 @@
-gamemodes\terrortown\entities\entities\ttt_hermes_boots.lua 
+gamemodes\terrortown\entities\entities\ttt_hermes_boots\cl_init.lua 
+gamemodes\terrortown\entities\entities\ttt_hermes_boots\init.lua 
+gamemodes\terrortown\entities\entities\ttt_hermes_boots\shared.lua 
 materials\vgui\ttt\icon_hermes_boots.vmt 
 materials\vgui\ttt\icon_hermes_boots.vtf 
 materials\vgui\ttt\perks\hermes_boots_hud.png 

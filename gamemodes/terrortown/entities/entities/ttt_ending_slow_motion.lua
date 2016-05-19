@@ -1,7 +1,7 @@
 if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("686457995")
-	util.AddNetworkString("TTT_Start_Slowmo")
+	util.AddNetworkString("TTT_SlowMotion_Start")
 end
 
 CreateConVar("ttt_sm_startsound", "entities/slow_motion/slow_motion_start.wav", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "The sound file, that should be played at the start of the slow motion.")
@@ -33,7 +33,7 @@ else
 	local mt = 0
 	local drawSlowMotion = false
 	local ColorConstTable, ColorModifyTable, BloomTable
-	net.Receive("TTT_Start_Slowmo", function()
+	net.Receive("TTT_SlowMotion_Start", function()
 		local result = net.ReadInt(4)
 		surface.PlaySound(Sound(GetConVar("ttt_sm_startsound"):GetString()))
 

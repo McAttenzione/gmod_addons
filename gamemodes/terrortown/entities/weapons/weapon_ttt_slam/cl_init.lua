@@ -1,13 +1,20 @@
 include('shared.lua')
 
-SWEP.PrintName = "M4 SLAM"
+LANG.AddToLanguage("english", "slam_name", "M4 SLAM")
+LANG.AddToLanguage("english", "slam_desc", "A Mine which can be manually detonated\nor sticked on a wall as a tripmine.\n\nNOTE: Can be shot and destroyed by everyone.")
+
+SWEP.PrintName = "slam_name"
 SWEP.Slot = 6
 SWEP.Icon = "vgui/ttt/icon_slam"
 
--- Equipment menu information is only needed on the client
+SWEP.UseHands = true
+SWEP.ViewModelFlip = false
+SWEP.ViewModelFOV = 64
+
+-- equipment menu information is only needed on the client
 SWEP.EquipMenuData = {
 	type = "item_weapon",
-	desc = "A Mine which can be manually detonated\nor sticked on a wall as a tripmine.\n\nNOTE: Can be shot and destroyed by everyone."
+	desc = "slam_desc"
 }
 
 local x = ScrW() / 2.0

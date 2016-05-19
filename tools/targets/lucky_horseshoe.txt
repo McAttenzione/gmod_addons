@@ -1,4 +1,6 @@
-gamemodes\terrortown\entities\entities\ttt_lucky_horseshoe.lua 
+gamemodes\terrortown\entities\entities\ttt_lucky_horseshoe\cl_init.lua 
+gamemodes\terrortown\entities\entities\ttt_lucky_horseshoe\init.lua 
+gamemodes\terrortown\entities\entities\ttt_lucky_horseshoe\shared.lua 
 materials\vgui\ttt\icon_lucky_horseshoe.vmt 
 materials\vgui\ttt\icon_lucky_horseshoe.vtf 
 materials\vgui\ttt\perks\lucky_horseshoe_hud.png 

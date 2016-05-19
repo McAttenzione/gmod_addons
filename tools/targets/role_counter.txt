@@ -1,1 +1,2 @@
-lua\autorun\ttt_role_counter.lua 
+gamemodes\terrortown\entities\entities\ttt_role_counter\cl_init.lua 
+gamemodes\terrortown\entities\entities\ttt_role_counter\init.lua 

@@ -1,16 +1,24 @@
 include('shared.lua')
 
-SWEP.PrintName = "M2014 Gauss"
+LANG.AddToLanguage("english", "gauss_name", "M2014 Gauss")
+LANG.AddToLanguage("english", "gauss_desc", "Fires heavy explosives.")
+
+SWEP.PrintName = "gauss_name"
 SWEP.Slot = 6
 SWEP.Icon = "vgui/ttt/icon_gauss_rifle"
 
--- Equipment menu information is only needed on the client
+-- client side model settings
+SWEP.UseHands = true -- should the hands be displayed
+SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+SWEP.ViewModelFOV = 64
+
+-- equipment menu information is only needed on the client
 SWEP.EquipMenuData = {
 	type = "item_weapon",
-	desc = "Fires heavy explosives."
+	desc = "gauss_desc"
 }
 
--- Draw the scope on the HUD
+-- draw the scope on the HUD
 local scope = surface.GetTextureID("sprites/scope")
 function SWEP:DrawHUD()
 	if self:GetIronsights() then

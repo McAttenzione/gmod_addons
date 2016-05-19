@@ -1,11 +1,11 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 0.6
 SWEP.Primary.Damage = 25
@@ -15,16 +15,12 @@ SWEP.Primary.DefaultClip = 4
 
 SWEP.MinimumPredatorStacks = 1
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "knife"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 65
 SWEP.ViewModel = Model("models/weapons/zaratusa/predator_blade/v_predator_blade.mdl")
 SWEP.WorldModel = Model("models/weapons/zaratusa/predator_blade/w_predator_blade.mdl")
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.

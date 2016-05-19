@@ -1,4 +1,4 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
@@ -6,15 +6,22 @@ if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("253736902")
 else
-	SWEP.PrintName = "Galil"
+	LANG.AddToLanguage("english", "galil_name", "Galil")
+
+	SWEP.PrintName = "galil_name"
 	SWEP.Slot = 2
 	SWEP.Icon = "vgui/ttt/icon_galil"
+
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+	SWEP.ViewModelFOV = 58
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Delay = 0.095
 SWEP.Primary.Recoil = 0.8
@@ -26,19 +33,15 @@ SWEP.Primary.ClipMax = 60
 SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Sound = Sound("Weapon_Galil.Single")
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "ar2"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 58
 SWEP.ViewModel = Model("models/weapons/cstrike/c_rif_galil.mdl")
 SWEP.WorldModel = Model("models/weapons/w_rif_galil.mdl")
 
 SWEP.IronSightsPos = Vector(-6.358, -11, 2.62)
 SWEP.IronSightsAng = Vector(-0.6, 0, 0)
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.

@@ -1,4 +1,4 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
@@ -6,21 +6,29 @@ if SERVER then
 	AddCSLuaFile()
 	resource.AddWorkshop("253737433")
 else
-	SWEP.PrintName = "P90"
+	LANG.AddToLanguage("english", "p90_name", "P90")
+	LANG.AddToLanguage("english", "p90_desc", "Extremely fast firing SMG.\nComes with a mounted scope.")
+
+	SWEP.PrintName = "p90_name"
 	SWEP.Slot = 6
 	SWEP.Icon = "vgui/ttt/icon_p90"
+
+	-- client side model settings
+	SWEP.UseHands = true -- should the hands be displayed
+	SWEP.ViewModelFlip = false -- should the weapon be hold with the left or the right hand
+	SWEP.ViewModelFOV = 60
 
 	-- Equipment menu information is only needed on the client
 	SWEP.EquipMenuData = {
 		type = "item_weapon",
-		desc = "Extremely fast firing SMG.\nComes with a mounted scope."
+		desc = "p90_desc"
 	}
 end
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Delay = 0.06
 SWEP.Primary.Recoil	= 0.8
@@ -34,19 +42,15 @@ SWEP.Primary.Sound = Sound("Weapon_P90.Single")
 SWEP.Secondary.Delay = 0.3
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "smg"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 60
 SWEP.ViewModel = Model("models/weapons/cstrike/c_smg_p90.mdl")
 SWEP.WorldModel	= Model("models/weapons/w_smg_p90.mdl")
 
 SWEP.IronSightsPos = Vector(5, -15, -2)
 SWEP.IronSightsAng = Vector(2.6, 1.37, 3.5)
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
