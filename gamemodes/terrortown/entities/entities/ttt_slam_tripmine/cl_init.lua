@@ -17,6 +17,7 @@ hook.Add("TTTPrepareRound", "SLAMLaserClean", function()
 	Laser = {}
 end)
 
+local bSetting = GetConVar("ttt_slam_beamsize")
 function ENT:ActivateSLAM()
 	if (IsValid(self)) then
 		self.LaserPos = self:GetAttachment(self:LookupAttachment("beam_attach")).Pos
@@ -29,7 +30,6 @@ function ENT:ActivateSLAM()
 		self:SetDefusable(true)
 
 		local index = self:EntIndex()
-		local bSetting = GetConVar("ttt_slam_beamsize")
 		hook.Add("PostDrawTranslucentRenderables", "SLAMBeam" .. index, function()
 			if (IsValid(self) and self:IsActive()) then
 				render.SetMaterial(self.LaserMaterial)

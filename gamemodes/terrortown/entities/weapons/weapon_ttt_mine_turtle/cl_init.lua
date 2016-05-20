@@ -1,13 +1,20 @@
 include('shared.lua')
 
-SWEP.PrintName = "Mine Turtle"
-SWEP.Slot = 6
+LANG.AddToLanguage("english", "mine_turtle_name", "Mine Turtle")
+LANG.AddToLanguage("english", "mine_turtle_desc", "HELLO!\n\nNOTE: Can be shot and destroyed by everyone.")
+
+SWEP.PrintName = "mine_turtle_name"
+SWEP.Slot = (!GetConVar("ttt_mineturtle_detective"):GetBool() and !GetConVar("ttt_mineturtle_traitor"):GetBool()) and 3 or 6
 SWEP.Icon = "vgui/ttt/icon_mine_turtle"
 
--- Equipment menu information is only needed on the client
+SWEP.UseHands = true
+SWEP.ViewModelFlip = false
+SWEP.ViewModelFOV = 64
+
+-- equipment menu information is only needed on the client
 SWEP.EquipMenuData = {
 	type = "item_weapon",
-	desc = "HELLO!\n\nNOTE: Can be shot and destroyed by everyone."
+	desc = "mine_turtle_desc"
 }
 
 local x = ScrW() / 2.0

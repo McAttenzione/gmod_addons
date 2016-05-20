@@ -1,50 +1,53 @@
---- Author informations ---
+--[[Author informations]]--
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
-local cfg = { }
-if file.Exists("ttt/weapons/mine_turtle/config.txt", "DATA") then
-	cfg = util.JSONToTable(file.Read("ttt/weapons/mine_turtle/config.txt", "DATA"))
-end
+local detectiveEnabled = CreateConVar("ttt_mineturtle_detective", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should Detectives be able to buy the Mine Turtle?")
+local traitorEnabled = CreateConVar("ttt_mineturtle_traitor", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should Traitors be able to buy the Mine Turtle?")
+CreateConVar("ttt_mineturtle_max", 5, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Maximum amount of turtles everyone can carry.")
+CreateConVar("ttt_mineturtle_bought", 2, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Amount of turtles you receive, when you buy a Mine Turtle.")
 
--- Always derive from weapon_tttbase
+-- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"
 
---- Default GMod values ---
+--[[Default GMod values]]--
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 1.5
 SWEP.Primary.Automatic = false
-SWEP.Primary.ClipSize = cfg.MaxTurtles or 5
-SWEP.Primary.DefaultClip = cfg.BoughtTurtles or 2
+SWEP.Primary.ClipSize = GetConVar("ttt_mineturtle_max"):GetInt()
+SWEP.Primary.DefaultClip = GetConVar("ttt_mineturtle_bought"):GetInt()
 SWEP.Secondary.Delay = 1.5
 SWEP.FiresUnderwater = false
 
---- Model settings ---
+--[[Model settings]]--
 SWEP.HoldType = "slam"
-
-SWEP.UseHands = true
-SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 64
 SWEP.ViewModel = Model("models/weapons/zaratusa/mine_turtle/v_mine_turtle.mdl")
 SWEP.WorldModel	= Model("models/weapons/zaratusa/mine_turtle/w_mine_turtle.mdl")
 
---- TTT config values ---
+--[[TTT config values]]--
 
 -- Kind specifies the category this weapon is in. Players can only carry one of
 -- each. Can be: WEAPON_... MELEE, PISTOL, HEAVY, NADE, CARRY, EQUIP1, EQUIP2 or ROLE.
 -- Matching SWEP.Slot values: 0      1       2     3      4      6       7        8
-SWEP.Kind = WEAPON_EQUIP1
+SWEP.Kind = !detectiveEnabled:GetBool() and !traitorEnabled:GetBool() and WEAPON_NADE or WEAPON_EQUIP1
 
 -- If AutoSpawnable is true and SWEP.Kind is not WEAPON_EQUIP1/2,
 -- then this gun can be spawned as a random weapon.
-SWEP.AutoSpawnable = false
+SWEP.AutoSpawnable = !detectiveEnabled:GetBool() and !traitorEnabled:GetBool()
 
 -- The AmmoEnt is the ammo entity that can be picked up when carrying this gun.
 SWEP.AmmoEnt = "none"
 
 -- CanBuy is a table of ROLE_* entries like ROLE_TRAITOR and ROLE_DETECTIVE. If
 -- a role is in this table, those players can buy this.
-SWEP.CanBuy = { ROLE_TRAITOR }
+SWEP.CanBuy = {}
+
+if (detectiveEnabled:GetBool()) then
+	table.insert(SWEP.CanBuy, ROLE_DETECTIVE)
+end
+if (traitorEnabled:GetBool()) then
+	table.insert(SWEP.CanBuy, ROLE_TRAITOR)
+end
 
 -- If LimitedStock is true, you can only buy one per round.
 SWEP.LimitedStock = true

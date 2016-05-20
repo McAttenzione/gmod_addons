@@ -2,8 +2,8 @@
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
-CreateConVar("ttt_slam_max", 5, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "How many SLAM's should everyone be able to carry?")
-CreateConVar("ttt_slam_bought", 2, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "How many SLAM's should you receive, when you buy a SLAM?")
+CreateConVar("ttt_slam_max", 5, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Maximum amount of SLAM's everyone can carry.")
+CreateConVar("ttt_slam_bought", 2, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Amount of SLAM's you receive, when you buy a SLAM.")
 
 -- always derive from weapon_tttbase
 SWEP.Base = "weapon_tttbase"

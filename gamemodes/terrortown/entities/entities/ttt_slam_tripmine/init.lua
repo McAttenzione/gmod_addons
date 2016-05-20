@@ -25,7 +25,13 @@ function ENT:Think()
 		if (tr.Fraction < self.LaserLength and (!self.Exploding)) then
 			local ent = tr.Entity
 
-			if (IsValid(ent) and ent:IsPlayer() and (!ent:IsSpec())) then
+			-- Spectator Deathmatch support
+			local isValid = IsValid(ent) and ent:IsPlayer() and !ent:IsSpec()
+			if (isValid and file.Exists("sh_spectator_deathmatch.lua", "LUA")) then
+				isValid = !ent:IsGhost()
+			end
+
+			if (isValid) then
 				self:StartExplode(true)
 			end
 		end

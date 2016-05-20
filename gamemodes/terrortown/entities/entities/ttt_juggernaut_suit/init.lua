@@ -6,6 +6,7 @@ resource.AddWorkshop("620977303") -- Blacklight Heavy Playermodel
 
 CreateConVar("ttt_juggernautsuit_detective_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Detectives have the Juggernaut Suit in their loadout?")
 CreateConVar("ttt_juggernautsuit_traitor_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Traitors have the Juggernaut Suit in their loadout?")
+local speed = CreateConVar("ttt_juggernautsuit_speed", 0.75, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "The speed multiplier for the Juggernaut Suit.")
 
 include('shared.lua')
 
@@ -26,9 +27,9 @@ end)
 hook.Add("TTTPlayerSpeed", "TTTJuggernautSuit", function(ply)
 	if (IsValid(ply) and ply:HasEquipmentItem(EQUIP_JUGGERNAUT_SUIT)) then
 		if (EQUIP_HERMES_BOOTS and ply:HasEquipmentItem(EQUIP_HERMES_BOOTS)) then
-			return 1.05 -- 5% increase with hermes boots
+			return speed:GetFloat() * GetConVar("ttt_hermesboots_speed"):GetFloat() -- multiply with the speed of the Hermes Boots
 		else
-			return 0.75 -- 25% decrease
+			return speed:GetFloat()
 		end
 	end
 end)

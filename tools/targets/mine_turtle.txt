@@ -7,7 +7,6 @@ gamemodes\terrortown\entities\entities\ttt_mine_turtle\shared.lua
 gamemodes\terrortown\entities\weapons\weapon_ttt_mine_turtle\cl_init.lua 
 gamemodes\terrortown\entities\weapons\weapon_ttt_mine_turtle\init.lua 
 gamemodes\terrortown\entities\weapons\weapon_ttt_mine_turtle\shared.lua 
-lua\autorun\mine_turtle_autorun.lua 
 lua\entities\zaratusas_mine_turtle\cl_init.lua 
 lua\entities\zaratusas_mine_turtle\init.lua 
 lua\entities\zaratusas_mine_turtle\shared.lua 
