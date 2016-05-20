@@ -3,8 +3,8 @@ AddCSLuaFile("shared.lua")
 
 resource.AddWorkshop("650523807")
 
-CreateConVar("ttt_luckyhorseshoe_detective_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Detectives have the Lucky Horseshoe in their Loadout?")
-CreateConVar("ttt_luckyhorseshoe_traitor_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Traitors have the Lucky Horseshoe in their Loadout?")
+CreateConVar("ttt_luckyhorseshoe_detective_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Detectives have the Lucky Horseshoe in their loadout?")
+CreateConVar("ttt_luckyhorseshoe_traitor_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Traitors have the Lucky Horseshoe in their loadout?")
 
 include('shared.lua')
 

@@ -3,8 +3,8 @@ AddCSLuaFile("shared.lua")
 
 resource.AddWorkshop("650523765")
 
-CreateConVar("ttt_hermesboots_detective_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Detectives have the Hermes Boots in their Loadout?")
-CreateConVar("ttt_hermesboots_traitor_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Traitors have the Hermes Boots in their Loadout?")
+CreateConVar("ttt_hermesboots_detective_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Detectives have the Hermes Boots in their loadout?")
+CreateConVar("ttt_hermesboots_traitor_loadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}, "Should Traitors have the Hermes Boots in their loadout?")
 
 include('shared.lua')
 

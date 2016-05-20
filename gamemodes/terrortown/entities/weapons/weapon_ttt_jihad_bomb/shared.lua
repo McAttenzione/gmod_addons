@@ -2,8 +2,8 @@
 SWEP.Author = "Zaratusa"
 SWEP.Contact = "http://steamcommunity.com/profiles/76561198032479768"
 
-CreateConVar("ttt_jihad_buyable", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Jihad Bomb be buyable for traitors?")
-CreateConVar("ttt_jihad_inloadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Jihad Bomb be in the loadout of the Traitors?")
+CreateConVar("ttt_jihad_buyable", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Jihad Bomb be buyable for Traitors?")
+CreateConVar("ttt_jihad_inloadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should the Jihad Bomb be in the loadout for Traitors?")
 
 if SERVER then
 	AddCSLuaFile()
