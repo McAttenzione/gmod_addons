@@ -12,6 +12,7 @@ hook.Add("TTTPrepareRound", "MineTurtleClean", function()
 	end
 end)
 
+local specDM = file.Exists("sh_spectator_deathmatch.lua", "LUA")
 function ENT:Think()
 	if (IsValid(self) and self:IsActive()) then
 		if (!self.HelloPlayed) then
@@ -19,7 +20,7 @@ function ENT:Think()
 			for _, ent in ipairs(ents.FindInSphere(self:GetPos(), self.ScanRadius)) do
 				-- Spectator Deathmatch support
 				isValid = IsValid(ent) and ent:IsPlayer() and !ent:IsSpec()
-				if (isValid and file.Exists("sh_spectator_deathmatch.lua", "LUA")) then
+				if (isValid and specDM) then
 					isValid = !ent:IsGhost()
 				end
 

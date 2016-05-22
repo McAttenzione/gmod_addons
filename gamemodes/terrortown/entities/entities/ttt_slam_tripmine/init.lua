@@ -18,6 +18,7 @@ function ENT:ActivateSLAM()
 	end
 end
 
+local specDM = file.Exists("sh_spectator_deathmatch.lua", "LUA")
 function ENT:Think()
 	if (IsValid(self) and self:IsActive()) then
 		local tr = util.QuickTrace(self.LaserPos, self:GetUp() * 10000, self)
@@ -27,7 +28,7 @@ function ENT:Think()
 
 			-- Spectator Deathmatch support
 			local isValid = IsValid(ent) and ent:IsPlayer() and !ent:IsSpec()
-			if (isValid and file.Exists("sh_spectator_deathmatch.lua", "LUA")) then
+			if (isValid and specDM) then
 				isValid = !ent:IsGhost()
 			end
 

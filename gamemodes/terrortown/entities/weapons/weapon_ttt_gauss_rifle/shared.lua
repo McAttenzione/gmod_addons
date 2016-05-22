@@ -182,7 +182,12 @@ function SWEP:Reload()
 end
 
 function SWEP:Holster()
-	self.Owner:GetViewModel():StopParticles()
+	if (IsValid(self.Owner)) then
+		local vm = self.Owner:GetViewModel()
+		if (IsValid(vm)) then
+			vm:StopParticles()
+		end
+	end
 	self:ResetIronSights()
 	return true
 end

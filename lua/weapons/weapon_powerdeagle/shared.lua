@@ -81,3 +81,14 @@ end
 
 function SWEP:SecondaryAttack()
 end
+
+
+function SWEP:Holster()
+	if (IsValid(self.Owner)) then
+		local vm = self.Owner:GetViewModel()
+		if (IsValid(vm)) then
+			vm:StopParticles()
+		end
+	end
+	return true
+end
