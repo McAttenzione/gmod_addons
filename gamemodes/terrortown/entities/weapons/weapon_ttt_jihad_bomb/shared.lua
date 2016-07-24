@@ -7,7 +7,7 @@ CreateConVar("ttt_jihad_inloadout", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE,
 
 if SERVER then
 	AddCSLuaFile()
-	resource.AddWorkshop("634300198")
+	resource.AddWorkshop("254177214")
 else
 	LANG.AddToLanguage("english", "jihad_bomb_name", "Jihad Bomb")
 	LANG.AddToLanguage("english", "jihad_bomb_desc", "Sacrifice yourself to Allah.\nYour 72 virgins await.\n\nNOTE: No refund after use.")
