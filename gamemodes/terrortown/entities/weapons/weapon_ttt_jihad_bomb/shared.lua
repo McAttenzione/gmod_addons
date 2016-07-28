@@ -166,7 +166,7 @@ function SWEP:PrimaryAttack()
 		local owner = self.Owner
 		self:SetNWBool("Exploding", true)
 		-- Only explode, if the code was completely typed in
-		timer.Simple(2.05, function() if (IsValid(self) and IsValid(owner) and owner:GetActiveWeapon():GetClass() == self:GetClass()) then self:Explode() end end)
+		timer.Simple(2.05, function() if (IsValid(self) and IsValid(owner) and IsValid(owner:GetActiveWeapon()) and owner:GetActiveWeapon():GetClass() == self:GetClass()) then self:Explode() end end)
 		self.Owner:EmitSound("weapons/jihad_bomb/jihad.wav", math.random(100, 150), math.random(95, 105))
 	end
 end
@@ -211,22 +211,21 @@ end
 
 -- calculate who is affected by the damage
 function SWEP:SphereDamage(dmgowner, center, radius)
-	local r = radius ^ 2 -- square so we can compare with dotproduct directly
+	local r = radius ^ 2 -- square so we can compare with length directly
 
 	local d = 0.0
 	local diff = nil
 	local dmg = 0
 	for _, ent in pairs(player.GetAll()) do
 		if (IsValid(ent) and ent:Team() == TEAM_TERROR) then
-
-			-- dot of the difference with itself is distance squared
+			-- get the squared length of the distance, so we don't have to calculate the square root
 			diff = center - ent:GetPos()
-			d = diff:Dot(diff)
+			d = diff:LengthSqr()
 
 			if d < r then
-				-- deadly up to a certain range, then a quick falloff
-				d = math.max(0, math.sqrt(d) - 400)
-				dmg = -0.01 * (d^2) + 125
+				-- deadly up to a certain range, then a falloff
+				d = math.max(0, math.sqrt(d) - radius * 0.65)
+				dmg = 125 + d * -1
 
 				local dmginfo = DamageInfo()
 				dmginfo:SetDamage(dmg)
