@@ -1,7 +1,13 @@
+-- author "Zaratusa"
+-- contact "http://steamcommunity.com/profiles/76561198032479768"
+
+-- co-author :"FloTurtle"
+-- contact "https://steamcommunity.com/profiles/76561198114511249"
+
 include('shared.lua')
 
 LANG.AddToLanguage("english", "juggernaut_suit_name", "Juggernaut Suit")
-LANG.AddToLanguage("english", "juggernaut_suit_desc", "Reduces explosion damage by 80%,\nbut you get a maximum of 50 damage,\nit further reduces fire damage by 65%\nand your movement speed.")
+LANG.AddToLanguage("english", "juggernaut_suit_desc", "Reduces explosion damage by 80%,\nbut you get a maximum of 50 damage,\nit further reduces all elemental damage\nand your movement speed.")
 
 -- feel for to use this function for your own perk, but please credit me
 -- your perk needs a "hud = true" in the table, to work properly
