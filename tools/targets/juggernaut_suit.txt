@@ -3,10 +3,5 @@ gamemodes\terrortown\entities\entities\ttt_juggernaut_suit\init.lua
 gamemodes\terrortown\entities\entities\ttt_juggernaut_suit\shared.lua 
 materials\vgui\ttt\icon_juggernaut_suit.vmt 
 materials\vgui\ttt\icon_juggernaut_suit.vtf 
-materials\vgui\ttt\perks\juggernaut_suit_hud.png 
-models\player\zaratusa\juggernaut_suit\blheavysoldier.dx80.vtx 
-models\player\zaratusa\juggernaut_suit\blheavysoldier.dx90.vtx 
-models\player\zaratusa\juggernaut_suit\blheavysoldier.mdl 
-models\player\zaratusa\juggernaut_suit\blheavysoldier.phy 
-models\player\zaratusa\juggernaut_suit\blheavysoldier.sw.vtx 
-models\player\zaratusa\juggernaut_suit\blheavysoldier.vvd 
+materials\vgui\ttt\perks\juggernaut_suit_hud.png
+

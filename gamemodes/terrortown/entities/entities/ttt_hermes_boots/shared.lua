@@ -4,21 +4,7 @@
 CreateConVar("ttt_hermesboots_detective", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should Detectives be able to buy the Hermes Boots?")
 CreateConVar("ttt_hermesboots_traitor", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Should Traitors be able to buy the Hermes Boots?")
 
--- feel for to use this function for your own perk, but please credit me
-local function getNextFreeID()
-	local freeID, i = 1, 1
-	while (freeID == 1) do
-		if (!istable(GetEquipmentItem(ROLE_DETECTIVE, i))
-			and !istable(GetEquipmentItem(ROLE_TRAITOR, i))) then
-			freeID = i
-		end
-		i = i * 2
-	end
-
-	return freeID
-end
-
-EQUIP_HERMES_BOOTS = getNextFreeID()
+EQUIP_HERMES_BOOTS = GenerateNewEquipmentID()
 
 local perk = {
 	id = EQUIP_HERMES_BOOTS,
